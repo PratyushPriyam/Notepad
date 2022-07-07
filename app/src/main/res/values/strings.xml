@@ -1,0 +1,19 @@
+<resources>
+    <string name="app_name">Notepad</string>
+    <string name="name">Pratyush Priyam</string>
+    <string name="open">Open</string>
+    <string name="close">Close</string>
+    <string name="save">Save</string>
+    <string name="hint_name">Name</string>
+    <string name="aboutMe">about Me</string>
+    <string name="bio">Change My Bio</string>
+    <string name="todo">Todo</string>
+    <string name="enterTitle">Enter title</string>
+    <string name="enterDesc">Enter description</string>
+    <string name="profile">Profile</string>
+    <string name="contactUs">Contact Us</string>
+    <string name="callUs">Call Us</string>
+    <string name="mailUs">Mail Us</string>
+    <string name="aboutUs">About Us</string>
+    <string name="supportUs">Support Us</string>
+</resources>
