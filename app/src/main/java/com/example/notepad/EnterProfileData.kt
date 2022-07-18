@@ -22,10 +22,12 @@ class EnterProfileData : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_enter_profile_data)
+
         supportActionBar!!.setBackgroundDrawable(ColorDrawable(Color.parseColor("#000080")))
         supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_baseline_subdirectory_arrow_left_24)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setTitle("Edit Your Bio")
+
         db = SQLiteDB_Profile(this)
         tableDB = db.writableDatabase
         contentValue = ContentValues()

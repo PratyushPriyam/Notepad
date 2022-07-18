@@ -24,7 +24,7 @@ class ManageNotes : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_manage_notes)
-        supportActionBar!!.setBackgroundDrawable(ColorDrawable(Color.parseColor("#000080")))
+        supportActionBar?.setBackgroundDrawable(ColorDrawable(Color.parseColor("#000080")))
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_baseline_subdirectory_arrow_left_24)
         supportActionBar?.setTitle("Manage My Notes")
@@ -38,7 +38,6 @@ class ManageNotes : AppCompatActivity() {
         if(note_id > 0) {
             tableDB = db.readableDatabase
             cursor = tableDB.query("notes", arrayOf("title", "description"), "_id=?", arrayOf(note_id.toString()), null, null, null)
-//            cursor = tableDB.rawQuery("select * from notes ", null)
             if(cursor.moveToFirst()) {
                 txtTitle.setText(cursor.getString(0))
                 txtDescription.setText(cursor.getString(1))

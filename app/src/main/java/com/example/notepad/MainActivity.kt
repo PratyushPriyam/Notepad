@@ -18,11 +18,14 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.navigation.NavigationView
 
 class MainActivity : AppCompatActivity() {
+    //-------------SQLite--------------------------
     lateinit var db: SQLiteDB
     lateinit var tableDB: SQLiteDatabase
     lateinit var cursor: Cursor
+    //-----------ListView & FAB--------------------
     lateinit var listView: ListView
     lateinit var fab: FloatingActionButton
+    //------------Navigation Drawer----------------
     lateinit var drawerLayout: DrawerLayout
     lateinit var navView: NavigationView
     lateinit var toggle: ActionBarDrawerToggle
@@ -37,6 +40,7 @@ class MainActivity : AppCompatActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar!!.setBackgroundDrawable(ColorDrawable(Color.parseColor("#000080")))
         supportActionBar?.setTitle("My Notes")
+
         toggle = ActionBarDrawerToggle(this, drawerLayout, R.string.open, R.string.close)
         drawerLayout.addDrawerListener(toggle)
         toggle.syncState()
