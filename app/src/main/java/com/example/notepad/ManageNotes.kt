@@ -1,6 +1,7 @@
 package com.example.notepad
 
 import android.content.ContentValues
+import android.content.Intent
 import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
 import android.graphics.Color
@@ -69,9 +70,10 @@ class ManageNotes : AppCompatActivity() {
 
     private fun deleteNote() {
         tableDB.delete("notes", "_id=?", arrayOf(note_id.toString()))
-        txtTitle.setText("")
-        txtDescription.setText("")
-        txtTitle.requestFocus()
+//        txtTitle.setText("")
+//        txtDescription.setText("")
+//        txtTitle.requestFocus()
+        startActivity(Intent(this, MainActivity::class.java))
         Toast.makeText(this, "Deletion Successful", Toast.LENGTH_SHORT).show()
     }
 
@@ -80,18 +82,20 @@ class ManageNotes : AppCompatActivity() {
             contentValue.put("title", txtTitle.text.toString())
             contentValue.put("description", txtDescription.text.toString())
             tableDB.insert("notes", null, contentValue)
-            txtTitle.setText("")
-            txtDescription.setText("")
-            txtTitle.requestFocus()
+//            txtTitle.setText("")
+//            txtDescription.setText("")
+//            txtTitle.requestFocus()
+            startActivity(Intent(this, MainActivity::class.java))
             Toast.makeText(this, "Data saved successfully", Toast.LENGTH_SHORT).show()
         }
         if(note_id > 0) { // Update
             contentValue.put("title", txtTitle.text.toString())
             contentValue.put("description", txtDescription.text.toString())
             tableDB.update("notes", contentValue, "_id=?", arrayOf(note_id.toString()))
-            txtTitle.setText("")
-            txtDescription.setText("")
-            txtTitle.requestFocus()
+//            txtTitle.setText("")
+//            txtDescription.setText("")
+//            txtTitle.requestFocus()
+            startActivity(Intent(this, MainActivity::class.java))
             Toast.makeText(this, "Updation Successful", Toast.LENGTH_SHORT).show()
             contentValue.clear()
         }
