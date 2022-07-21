@@ -1,5 +1,6 @@
 package com.example.notepad
 
+import android.content.ActivityNotFoundException
 import android.content.ContentValues
 import android.content.Intent
 import android.database.Cursor
@@ -8,11 +9,17 @@ import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.speech.RecognizerIntent
+import android.text.Editable
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
+import androidx.activity.result.ActivityResult
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
+import java.util.*
 
 class ManageNotes : AppCompatActivity() {
     lateinit var db: SQLiteDB
@@ -22,6 +29,11 @@ class ManageNotes : AppCompatActivity() {
     var note_id: Long = 0
     lateinit var txtTitle: EditText
     lateinit var txtDescription: EditText
+
+    lateinit var speakTitle: Button
+    lateinit var speakDescription: Button
+    lateinit var activityResultLauncher: ActivityResultLauncher<Intent>
+    lateinit var replacedEditText: EditText
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_manage_notes)
@@ -35,6 +47,25 @@ class ManageNotes : AppCompatActivity() {
         db = SQLiteDB(this)
         tableDB = db.writableDatabase
         contentValue = ContentValues()
+        speakTitle = findViewById(R.id.speakTitle)
+        speakDescription = findViewById(R.id.speakDescription)
+
+        speakTitle.setOnClickListener {
+            speechToText()
+            replacedEditText = findViewById(R.id.txtTitle)
+        }
+
+        speakDescription.setOnClickListener {
+            speechToText()
+            replacedEditText = findViewById(R.id.txtDesc)
+        }
+
+        activityResultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult? ->
+            if(result?.resultCode == RESULT_OK && result?.data != null) {
+                val speechText = result?.data?.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS) as ArrayList<Editable>
+                replacedEditText.text = speechText[0]
+            }
+        }
 
         if(note_id > 0) {
             tableDB = db.readableDatabase
@@ -43,6 +74,21 @@ class ManageNotes : AppCompatActivity() {
                 txtTitle.setText(cursor.getString(0))
                 txtDescription.setText(cursor.getString(1))
             }
+        }
+
+
+    }
+
+    private fun speechToText() {
+        val intent = Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH)
+        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM)
+        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.getDefault())
+        intent.putExtra(RecognizerIntent.EXTRA_PROMPT, "Speak now !!")
+        try {
+            activityResultLauncher.launch(intent)
+        }
+        catch (exception: ActivityNotFoundException) {
+            Toast.makeText(this, "Speech Recognition not available", Toast.LENGTH_SHORT).show()
         }
     }
 
